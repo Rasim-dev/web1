@@ -4,79 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <title>Word Checker</title>
+    <title>Binary Word Checker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body 
-        {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
             background-color: #2b2b2b;
             color: #d4f7c5;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            flex-direction: column;
+            text-align: center;
         }
-        input 
-        {
-            padding: 10px;
-            font-size: 16px;
-            border: 2px solid #88cc88;
+
+        .container {
             background-color: #3a3a3a;
-            color: #d4f7c5;
-            outline: none;
-            border-radius: 5px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-weight: 600;
             margin-bottom: 20px;
         }
-        button 
-        {
-            padding: 10px 20px;
+
+        textarea, input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #88cc88;
+            background-color: #2b2b2b;
+            color: #d4f7c5;
+            outline: none;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            resize: none;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
             font-size: 16px;
             background-color: #88cc88;
             color: #2b2b2b;
             border: none;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.2s;
         }
-        button:hover 
-        {
+
+        button:hover {
             background-color: #77bb77;
         }
-        .icon 
-        {
-            font-size: 40px;
-            margin-top: 20px;
+
+        .icon {
+            font-size: 48px;
+            margin-top: 10px;
+            font-weight: bold;
         }
-        .correct 
-        {
+
+        .correct {
             color: #00ff00;
         }
-        .incorrect 
-        {
+
+        .incorrect {
             color: #ff4444;
         }
     </style>
 </head>
 <body>
 
-    <h1>Enter the word:</h1>
-    <input type="text" id="wordInput" placeholder="Type here...">
-    <button onclick="checkWord()">Check</button>
-    <div id="result" class="icon"></div>
+    <div class="container">
+        <h1>Binary to Word Checker</h1>
+        <textarea id="binaryInput" placeholder="Enter binary code here..."></textarea>
+        <div class="buttons">
+            <button onclick="convertToText()">Convert</button>
+            <button onclick="checkWord()">Check</button>
+        </div>
+        <input type="text" id="wordOutput" placeholder="Converted word..." readonly>
+        <div id="result" class="icon"></div>
+    </div>
 
     <script>
-        function checkWord() 
-        {
-            let input = document.getElementById("wordInput").value.toLowerCase();
+        function convertToText() {
+            let binary = document.getElementById("binaryInput").value.trim();
+            let text = binary.split(" ")
+                .map(bin => String.fromCharCode(parseInt(bin, 2)))
+                .join("");
+            document.getElementById("wordOutput").value = text;
+        }
+
+        function checkWord() {
+            let input = document.getElementById("wordOutput").value.toLowerCase();
             let resultDiv = document.getElementById("result");
             
-            if (input === "brilliant") 
-            {
+            if (input === "brilliant") {
                 resultDiv.innerHTML = "✔";
                 resultDiv.className = "icon correct";
-            } 
-            else 
-            {
+            } else {
                 resultDiv.innerHTML = "✖";
                 resultDiv.className = "icon incorrect";
             }
